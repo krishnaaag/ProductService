@@ -1,5 +1,6 @@
 package com.scaler.productservice.controllers;
 
+import com.scaler.productservice.dtos.FakeStoreProductDto;
 import com.scaler.productservice.models.Product;
 import com.scaler.productservice.services.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +30,9 @@ public class ProductController {
         return productService.getSingleProduct(id);
     }
 
+    @GetMapping()
     public List<Product> getAllProducts(){
-        return new ArrayList<>();
+        return productService.getAllProducts();
     }
 }
 
