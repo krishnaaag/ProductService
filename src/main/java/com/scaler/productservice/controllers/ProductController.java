@@ -1,8 +1,12 @@
 package com.scaler.productservice.controllers;
 
 import com.scaler.productservice.dtos.FakeStoreProductDto;
+import com.scaler.productservice.exceptions.ProductNotFoundException;
 import com.scaler.productservice.models.Product;
 import com.scaler.productservice.services.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -22,9 +26,18 @@ public class ProductController {
     // http://localhost:8080/products/10
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") Long id)
-    {
-        return productService.getSingleProduct(id);
+    public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
+//        ResponseEntity<Product> responseEntity =null;
+//        try {
+//            Product product= productService.getSingleProduct(id);
+//            responseEntity =new ResponseEntity<>(product, HttpStatus.OK);
+//        }
+//        catch (RuntimeException e)
+//        {
+//            responseEntity = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+        ResponseEntity<Product> response= new ResponseEntity<>(productService.getSingleProduct(id),HttpStatus.OK);
+        return response;
     }
 
     @GetMapping()
@@ -46,5 +59,13 @@ public class ProductController {
     public Product replaceProduct(@PathVariable("id") Long id,@RequestBody Product product){
         return  null;
     }
+
+//    @ExceptionHandler(ArithmeticException.class)
+//    public ResponseEntity<String> handleArithmeticException()
+//    {
+//        ResponseEntity<String> response= new ResponseEntity<>(
+//                "Arithmetic Exception has happened, Inside the controller", HttpStatus.BAD_REQUEST);
+//        return response;
+//    }
 }
 

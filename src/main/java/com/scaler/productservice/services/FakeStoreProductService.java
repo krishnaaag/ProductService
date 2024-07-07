@@ -1,6 +1,7 @@
 package com.scaler.productservice.services;
 
 import com.scaler.productservice.dtos.FakeStoreProductDto;
+import com.scaler.productservice.exceptions.ProductNotFoundException;
 import com.scaler.productservice.models.Category;
 import com.scaler.productservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,17 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public Product getSingleProduct(Long productId) {
+    public Product getSingleProduct(Long productId) throws ProductNotFoundException {
+       // throw new RuntimeException("Something went wrong");
 
-        // call ProductService to fetch the product with given id => HTTP Call
-       FakeStoreProductDto fakeStoreProductDto= restTemplate.getForObject("https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
+       // call ProductService to fetch the product with given id => HTTP Call
+       FakeStoreProductDto fakeStoreProductDto= restTemplate.getForObject(
+               "https://fakestoreapi.com/products/" + productId, FakeStoreProductDto.class);
+
+       if(fakeStoreProductDto == null)
+       {
+           throw new ProductNotFoundException("Product with id"+ productId +"doesn't exists");
+       }
 
        //Convert FakeStoreProductDto into Product
         return convertFakeStoreProductToProduct(fakeStoreProductDto);
@@ -36,6 +44,8 @@ public class FakeStoreProductService implements ProductService{
 
     @Override
     public List<Product> getAllProducts() {
+
+
         FakeStoreProductDto[] fakeStoreProductDtos= restTemplate.getForObject("https://fakestoreapi.com/products",
                 FakeStoreProductDto[].class);
 
