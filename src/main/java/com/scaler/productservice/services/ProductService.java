@@ -3,6 +3,7 @@ package com.scaler.productservice.services;
 import com.scaler.productservice.exceptions.ProductNotFoundException;
 import com.scaler.productservice.models.Product;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -17,6 +18,8 @@ public interface ProductService {
     Product replaceProduct(Long id, Product product);
 
     void  deleteProduct(Long id);
+
+    Product addNewProduct(Product product);
 
 
 
