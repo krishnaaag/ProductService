@@ -10,4 +10,7 @@ public class RestTemplateConfig {
     public RestTemplate getRestTemplate(){
         return  new RestTemplate();
     }
+
+
+
 }

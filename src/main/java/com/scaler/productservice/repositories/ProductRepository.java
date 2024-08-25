@@ -1,8 +1,10 @@
 package com.scaler.productservice.repositories;
 
 import com.scaler.productservice.models.Product;
+import com.scaler.productservice.projections.ProductwithIdandTitle;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,5 +47,13 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findProductById(Long id);
 
     @Override
-    List<Product> findAll(Sort sort);
+    List<Product> findAll();
+
+    //HQL
+    @Query("select p.id as id,p.title as title from Product p where p.id= :x") //here we have to write models you have in codebase (easy), autosuggestion also comes
+    List<ProductwithIdandTitle> randomSearchMethod(Long x);
+
+    //SQL
+    @Query(value = "select * from product p where p.id= :x",nativeQuery = true) //here we have to write table name
+    List<ProductwithIdandTitle> randomSearchMethod1(Long x);
 }

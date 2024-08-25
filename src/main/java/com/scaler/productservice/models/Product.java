@@ -1,9 +1,6 @@
 package com.scaler.productservice.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -13,8 +10,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Entity
 public class Product extends BaseModel {
     private String title;
-    private double price;
-    @ManyToOne
+    private Double price;
+    @ManyToOne(cascade = CascadeType.PERSIST) // when we try to save product object via POST then automatically persist(save) the category id object as well
     private Category category;
   }
 
